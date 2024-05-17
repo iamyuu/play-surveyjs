@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+}
+
+survey-creator, .svc-creator {
+    height: 100vh;
+}
+
+.ql-toolbar.ql-snow {
+    white-space: normal;
+}
+.sv-string-editor--html {
+    white-space: normal !important;
+}
+.quill .ql-container {
+    max-height: calc(100% - 42px);
+}
