@@ -1,16 +1,7 @@
-import * as React from "react";
 import { createRoot } from "react-dom/client";
-import { Serializer } from "survey-core";
-import { PropertyGridEditorCollection } from "survey-creator-core";
 import type { ICreatorOptions } from "survey-creator-core";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
-import { ReactQuestionFactory } from "survey-react-ui";
-import {
-	EDITOR_TYPE,
-	QuestionQuillModel,
-	SurveyQuestionQuill,
-	applyHtml,
-} from "./libs/rich-text";
+import { applyHtml } from "./libs/rich-text";
 
 import "survey-core/defaultV2.css";
 import "survey-creator-core/survey-creator-core.css";
@@ -47,34 +38,6 @@ const creatorOptions: ICreatorOptions = {
 	allowEditExpressionsInTextEditor: true,
 	haveCommercialLicense: true,
 };
-
-// Add question type metadata for further serialization into JSON
-Serializer.addClass(
-	EDITOR_TYPE,
-	[{ name: "height", default: "120px", category: "layout" }],
-	() => new QuestionQuillModel(""),
-	"question",
-);
-
-// Register `SurveyQuestionQuill` as a class that renders `rich-text` questions
-// NOTE: render the rich text editor
-ReactQuestionFactory.Instance.registerQuestion(EDITOR_TYPE, (props) =>
-	React.createElement(SurveyQuestionQuill, props),
-);
-
-// Register `rich-text` as an editor for properties of the `text` and `html` types in the Survey Creator's Property Grid
-// NOTE: render the rich text editor
-PropertyGridEditorCollection.register({
-	fit: (prop) => {
-		// only render rich-text editor for the `description` property
-		if (prop.name === "description") {
-			return prop.type === "text" || prop.type === "html";
-		}
-
-		return false;
-	},
-	getJSON: () => ({ type: EDITOR_TYPE }),
-});
 
 function App() {
 	const creator = new SurveyCreator(creatorOptions);
