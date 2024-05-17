@@ -3,6 +3,10 @@ import type { ICreatorOptions } from "survey-creator-core";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
 import { applyHtml } from "./libs/rich-text";
 
+import "survey-core/survey.i18n.js";
+import { localization } from "survey-creator-core";
+import "./libs/locale-id";
+
 import "survey-core/defaultV2.css";
 import "survey-creator-core/survey-creator-core.css";
 import "./styles.css";
@@ -39,6 +43,7 @@ const creatorOptions: ICreatorOptions = {
 	haveCommercialLicense: true,
 };
 
+localization.currentLocale = "id";
 function App() {
 	const creator = new SurveyCreator(creatorOptions);
 
