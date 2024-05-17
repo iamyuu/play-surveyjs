@@ -3,6 +3,8 @@ import type { ICreatorOptions } from "survey-creator-core";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
 import { applyHtml } from "./libs/rich-text";
 
+import { surveyLocalization } from "survey-core";
+
 import "survey-core/survey.i18n.js";
 import { localization } from "survey-creator-core";
 import "./libs/locale-id";
@@ -44,6 +46,8 @@ const creatorOptions: ICreatorOptions = {
 };
 
 localization.currentLocale = "id";
+surveyLocalization.supportedLocales = ["id", "en"];
+
 function App() {
 	const creator = new SurveyCreator(creatorOptions);
 
@@ -56,9 +60,32 @@ function App() {
 		}
 	});
 
+	// creator.JSON = {
+	// 	title: "Play SurveyJS",
+	// 	description: "<p>Hello <strong>world</strong></p>",
+	// 	pages: [
+	// 		{
+	// 			name: "page1",
+	// 			elements: [
+	// 				{
+	// 					type: "text",
+	// 					name: "question1",
+	// 					title: "Apalah dia apalah",
+	// 				},
+	// 			],
+	// 		},
+	// 	],
+	// };
+
 	creator.JSON = {
-		title: "Play SurveyJS",
-		description: "<p>Hello <strong>world</strong></p>",
+		title: {
+			default: "Playground",
+			id: "Tempat bermain",
+		},
+		description: {
+			default: "<p>Hello <strong>world</strong></p>",
+			id: "<p>Halo <strong>dunia</strong></p>",
+		},
 		pages: [
 			{
 				name: "page1",
@@ -66,7 +93,10 @@ function App() {
 					{
 						type: "text",
 						name: "question1",
-						title: "Apalah dia apalah",
+						title: {
+							default: "Whatever he is",
+							id: "Apalah dia apalah",
+						},
 					},
 				],
 			},
