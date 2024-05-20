@@ -13,7 +13,7 @@ import "survey-core/defaultV2.css";
 import "survey-creator-core/survey-creator-core.css";
 import "./styles.css";
 
-const creatorOptions: ICreatorOptions = {
+const defaultOptions: ICreatorOptions = {
 	showTestSurveyTab: true,
 	showEmbededSurveyTab: false,
 	showJSONEditorTab: true,
@@ -21,16 +21,20 @@ const creatorOptions: ICreatorOptions = {
 	showLogicTab: false,
 	showOptions: false,
 	showPropertyGrid: true,
-	allowModifyPages: true,
 	showPagesToolbox: false,
 	showDropdownPageSelector: false,
-	isAutoSave: true,
 	showPagesInTestSurveyTab: false,
 	showDefaultLanguageInTestSurveyTab: false,
 	showInvisibleElementsInTestSurveyTab: false,
 	showSimulatorInTestSurveyTab: false,
 	showSurveyTitle: true,
+	showTitlesInExpressions: true,
+
+	isAutoSave: true,
+	allowModifyPages: true,
 	allowControlSurveyTitleVisibility: false,
+	allowEditExpressionsInTextEditor: true,
+
 	questionTypes: [
 		"text",
 		"comment",
@@ -40,16 +44,13 @@ const creatorOptions: ICreatorOptions = {
 		"ranking",
 		"imagepicker",
 	],
-	showTitlesInExpressions: true,
-	allowEditExpressionsInTextEditor: true,
-	haveCommercialLicense: true,
 };
 
 localization.currentLocale = "id";
 surveyLocalization.supportedLocales = ["id", "en"];
 
-function App() {
-	const creator = new SurveyCreator(creatorOptions);
+function useSurveyCreator(options?: ICreatorOptions) {
+	const creator = new SurveyCreator({ ...defaultOptions, ...options });
 
 	// Apply HTML markup to survey contents
 	// NOTE: render html in the preview and designer tabs
@@ -59,6 +60,12 @@ function App() {
 			options.survey.onTextMarkdown.add(applyHtml);
 		}
 	});
+
+	return creator;
+}
+
+function App() {
+	const creator = useSurveyCreator();
 
 	// creator.JSON = {
 	// 	title: "Play SurveyJS",
@@ -80,7 +87,6 @@ function App() {
 	creator.JSON = {
 		title: {
 			default: "Playground",
-			id: "Tempat bermain",
 		},
 		description: {
 			default: "<p>Hello <strong>world</strong></p>",
@@ -94,8 +100,7 @@ function App() {
 						type: "text",
 						name: "question1",
 						title: {
-							default: "Whatever he is",
-							id: "Apalah dia apalah",
+							default: "Apalah dia apalah",
 						},
 					},
 				],
