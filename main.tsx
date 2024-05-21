@@ -1,3 +1,4 @@
+import * as React from "react";
 import { createRoot } from "react-dom/client";
 import type { ICreatorOptions } from "survey-creator-core";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
@@ -5,9 +6,9 @@ import { applyHtml } from "./libs/rich-text";
 
 import { surveyLocalization } from "survey-core";
 
-import "survey-core/survey.i18n.js";
 import { localization } from "survey-creator-core";
-import "./libs/locale-id";
+import "./libs/locales/english";
+import "./libs/locales/indonesian";
 
 import "survey-core/defaultV2.css";
 import "survey-creator-core/survey-creator-core.css";
@@ -46,10 +47,15 @@ const defaultOptions: ICreatorOptions = {
 	],
 };
 
-localization.currentLocale = "id";
 surveyLocalization.supportedLocales = ["id", "en"];
 
-function useSurveyCreator(options?: ICreatorOptions) {
+type UseSurveyCreatorOptions = ICreatorOptions & {
+	locale?: string;
+};
+
+function useSurveyCreator(options?: UseSurveyCreatorOptions) {
+	localization.currentLocale = options?.locale || "id";
+
 	const creator = new SurveyCreator({ ...defaultOptions, ...options });
 
 	// Apply HTML markup to survey contents
@@ -65,7 +71,8 @@ function useSurveyCreator(options?: ICreatorOptions) {
 }
 
 function App() {
-	const creator = useSurveyCreator();
+	const [locale, setLocale] = React.useState("id");
+	const creator = useSurveyCreator({ locale });
 
 	// creator.JSON = {
 	// 	title: "Play SurveyJS",
@@ -108,7 +115,19 @@ function App() {
 		],
 	};
 
-	return <SurveyCreatorComponent creator={creator} />;
+	return (
+		<div>
+			<div>
+				<button type="button" onClick={() => setLocale("id")}>
+					id
+				</button>
+				<button type="button" onClick={() => setLocale("en")}>
+					en
+				</button>
+			</div>
+			<SurveyCreatorComponent creator={creator} />
+		</div>
+	);
 }
 
 createRoot(document.getElementById("root") as HTMLElement).render(<App />);
