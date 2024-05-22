@@ -58,6 +58,8 @@ function useSurveyCreator(options?: UseSurveyCreatorOptions) {
 
 	const creator = new SurveyCreator({ ...defaultOptions, ...options });
 
+	creator.saveSurveyFunc = () => console.log(creator.text);
+
 	// Apply HTML markup to survey contents
 	// NOTE: render html in the preview and designer tabs
 	creator.survey.onTextMarkdown.add(applyHtml);
